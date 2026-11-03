@@ -90,7 +90,7 @@
             border-radius: 14px; padding: 14px 18px; width: 100%; max-width: 360px;
             margin-bottom: 14px; backdrop-filter: blur(10px);
         }
-        .settings-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ffd700; margin-bottom: 8px; font-weight: 600; display: flex; justify-content: space-between;}
+        .settings-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ffd700; margin-bottom: 8px; font-weight: 600; display: flex; justify-space-between;}
 
         .name-input {
             width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
@@ -921,14 +921,6 @@
             const w = c.w;
             const h = c.h;
 
-            // Ground shadow under standing can
-            if (c.status === 'standing') {
-                ctx.fillStyle = 'rgba(0,0,0,0.65)';
-                ctx.beginPath();
-                ctx.ellipse(0, h/2 + 5, w/2 + 6, 9, 0, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
             // Can metallic cylindrical body shading
             const bodyGrad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
             bodyGrad.addColorStop(0, '#222');
@@ -956,7 +948,6 @@
             const highlightColor = gameState.activePlayer === 1 ? '#2ecc71' : '#3498db';
             const darkColor = gameState.activePlayer === 1 ? '#145a32' : '#0b273d';
 
-            // Curved label cylinder wrap gradient
             const labelGrad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
             labelGrad.addColorStop(0, darkColor);
             labelGrad.addColorStop(0.25, baseColor);
@@ -967,7 +958,6 @@
             ctx.fillStyle = labelGrad;
             ctx.fillRect(-w/2, labelY, w, labelH);
 
-            // Diagonal textured pattern for label depth
             ctx.save();
             ctx.beginPath();
             ctx.rect(-w/2, labelY, w, labelH);
@@ -983,12 +973,10 @@
             }
             ctx.restore();
 
-            // Gold decorative borders around label
             ctx.strokeStyle = '#f1c40f';
             ctx.lineWidth = 2;
             ctx.strokeRect(-w/2, labelY, w, labelH);
 
-            // Inner curved shading at top/bottom of label for cylinder wrapping illusion
             const curveShadowTop = ctx.createLinearGradient(0, labelY, 0, labelY + 6);
             curveShadowTop.addColorStop(0, 'rgba(0,0,0,0.4)');
             curveShadowTop.addColorStop(1, 'rgba(0,0,0,0)');
@@ -1001,7 +989,6 @@
             ctx.fillStyle = curveShadowBot;
             ctx.fillRect(-w/2, labelY + labelH - 6, w, 6);
 
-            // Score text with 3D drop shadow
             ctx.font = '900 18px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -1012,7 +999,6 @@
             ctx.fillStyle = '#ffd700';
             ctx.fillText(c.label, 0, 0);
 
-            // Top rim ellipse (3D lid opening)
             const rimGrad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
             rimGrad.addColorStop(0, '#555');
             rimGrad.addColorStop(0.5, '#eee');
@@ -1026,13 +1012,11 @@
             ctx.lineWidth = 1.5;
             ctx.stroke();
 
-            // Inner recess of top rim
             ctx.fillStyle = '#222';
             ctx.beginPath();
             ctx.ellipse(0, -h/2, w/2 - 3, 3.5, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Bottom rim ellipse
             ctx.fillStyle = '#333';
             ctx.beginPath();
             ctx.ellipse(0, h/2, w/2, 6, 0, 0, Math.PI * 2);
