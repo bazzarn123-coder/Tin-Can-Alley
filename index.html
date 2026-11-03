@@ -32,12 +32,46 @@
             flex-direction: column;
         }
 
-        /* SPLASH SCREEN */
+        /* 3D INTRO SPLASH SCREEN */
+        #intro-splash {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 3000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; transition: opacity 0.5s ease;
+        }
+        #intro-splash.hidden { opacity: 0; pointer-events: none; }
+        #intro-splash img {
+            width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;
+        }
+        .tap-to-start-banner {
+            position: absolute;
+            bottom: 40px;
+            background: rgba(0, 0, 0, 0.75);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+            animation: pulseBanner 1.5s infinite;
+            z-index: 3001;
+        }
+        @keyframes pulseBanner {
+            0% { transform: scale(1); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 6px 25px rgba(255, 215, 0, 0.8); }
+            100% { transform: scale(1); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5); }
+        }
+
+        /* MENU / SETTINGS SCREEN */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(15, 5, 30, 0.85)), radial-gradient(circle, #4a154b, #120318);
-            z-index: 1000;
+            z-index: 2000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             padding: 20px; transition: opacity 0.4s ease; overflow-y: auto;
         }
@@ -129,146 +163,61 @@
         .p-score { font-size: 1.6rem; font-weight: 900; color: #ffd700; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
         
         .checkout-helper {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: #ffeb3b;
-            margin-top: 2px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2px 6px;
-            border-radius: 4px;
-            letter-spacing: 0.5px;
-            min-height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
+            font-size: 0.65rem; font-weight: 700; color: #ffeb3b; margin-top: 2px;
+            background: rgba(0, 0, 0, 0.3); padding: 2px 6px; border-radius: 4px;
+            letter-spacing: 0.5px; min-height: 18px; display: flex;
+            align-items: center; justify-content: center; text-align: center; width: 100%;
         }
 
-        /* SHOT HITS FEEDBACK */
         .shot-feedback {
-            font-size: 0.68rem;
-            font-weight: 800;
-            color: #00ffff;
-            background: rgba(0, 255, 255, 0.15);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            padding: 2px 8px;
-            border-radius: 6px;
-            margin-top: 3px;
-            letter-spacing: 0.5px;
-            text-align: center;
-            width: 100%;
-            max-width: 480px;
+            font-size: 0.68rem; font-weight: 800; color: #00ffff;
+            background: rgba(0, 255, 255, 0.15); border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 2px 8px; border-radius: 6px; margin-top: 3px; letter-spacing: 0.5px;
+            text-align: center; width: 100%; max-width: 480px;
         }
 
-        /* BOARD AREA CONTAINER & SIDE SCORE BOXES */
         .board-area-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 650px;
-            margin: 10px auto 0 auto;
+            position: relative; display: flex; justify-content: center; align-items: center;
+            width: 100%; max-width: 650px; margin: 10px auto 0 auto;
         }
 
         .side-score-box {
-            position: absolute;
-            top: -36px;
-            background: rgba(0, 0, 0, 0.65);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            border-radius: 10px;
-            padding: 6px 10px;
-            text-align: center;
-            backdrop-filter: blur(5px);
-            min-width: 78px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-            z-index: 20;
+            position: absolute; top: -36px; background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 10px;
+            padding: 6px 10px; text-align: center; backdrop-filter: blur(5px);
+            min-width: 78px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); z-index: 20;
         }
         .side-score-box.left-box { left: 2px; }
         .side-score-box.right-box { right: 2px; }
 
-        .side-box-label {
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            color: #ffeb3b;
-            font-weight: 800;
-            margin-bottom: 2px;
-        }
-        .side-box-val {
-            font-size: 1.35rem;
-            font-weight: 900;
-            color: #ffd700;
-            text-shadow: 0 0 8px rgba(255,215,0,0.3);
-        }
+        .side-box-label { font-size: 0.55rem; text-transform: uppercase; color: #ffeb3b; font-weight: 800; margin-bottom: 2px; }
+        .side-box-val { font-size: 1.35rem; font-weight: 900; color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.3); }
 
-        /* CANVAS WRAPPER */
         .dartboard-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: min(94vw, 55vh, 620px);
-            height: min(94vw, 55vh, 620px);
-            margin: 0 auto;
-            aspect-ratio: 1 / 1;
+            position: relative; display: flex; justify-content: center; align-items: center;
+            width: min(94vw, 55vh, 620px); height: min(94vw, 55vh, 620px); margin: 0 auto; aspect-ratio: 1 / 1;
         }
-        #dartboard-canvas {
-            width: 100%;
-            height: 100%;
-            touch-action: none;
-            cursor: pointer;
-            display: block;
-        }
+        #dartboard-canvas { width: 100%; height: 100%; touch-action: none; cursor: pointer; display: block; }
 
-        /* BOTTOM GOLD BULLETS RACKS */
         .bottom-darts-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 520px;
-            padding: 4px 16px;
-            margin-top: -8px;
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; max-width: 520px; padding: 4px 16px; margin-top: -8px;
         }
 
         .dart-rack {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 6px 12px;
-            backdrop-filter: blur(5px);
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px; padding: 6px 12px; backdrop-filter: blur(5px);
         }
 
-        .rack-title {
-            font-size: 0.65rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .rack-darts {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+        .rack-title { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .rack-darts { display: flex; gap: 10px; align-items: center; }
 
         .custom-bullet-svg {
-            width: 20px;
-            height: 55px;
-            transition: all 0.3s ease;
+            width: 20px; height: 55px; transition: all 0.3s ease;
             filter: drop-shadow(0 3px 6px rgba(255,215,0,0.4));
         }
-
-        .custom-bullet-svg.inactive {
-            opacity: 0.15;
-            filter: grayscale(80%);
-            transform: translateY(4px);
-        }
+        .custom-bullet-svg.inactive { opacity: 0.15; filter: grayscale(80%); transform: translateY(4px); }
 
         .turn-status {
             background: rgba(0,0,0,0.4); border-radius: 20px; padding: 4px 16px;
@@ -314,7 +263,14 @@
     </style>
 </head>
 <body>
-    <div id="splash-screen">
+    <!-- 3D INTRO SPLASH SCREEN -->
+    <div id="intro-splash">
+        <img src="watermarked_img_18073347474510179094.jpg" alt="Tin Can Alley 3D Splash">
+        <div class="tap-to-start-banner">TAP ANYWHERE TO PLAY</div>
+    </div>
+
+    <!-- SETTINGS / MENU SCREEN -->
+    <div id="splash-screen" class="hidden">
         <div class="splash-title">TIN CAN ALLEY</div>
         <div class="splash-subtitle">Gold Bullet Edition</div>
 
@@ -483,6 +439,13 @@
     </div>
 
     <script>
+        // Tap anywhere on the 3D Intro Splash to jump straight to the menu screen
+        document.getElementById('intro-splash').addEventListener('click', () => {
+            document.getElementById('intro-splash').classList.add('hidden');
+            // Remove 'hidden' from splash-screen if it was hidden
+            document.getElementById('splash-screen').classList.remove('hidden');
+        });
+
         let gameState = {
             mode: '1p',
             theme: 'inside',
@@ -908,7 +871,6 @@
             ctx.save();
             ctx.translate(x, y);
 
-            // Hanging cord
             ctx.strokeStyle = '#333';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -916,7 +878,6 @@
             ctx.lineTo(0, -22);
             ctx.stroke();
 
-            // Head
             ctx.fillStyle = color;
             ctx.beginPath();
             ctx.arc(0, -12, 14, 0, Math.PI * 2);
@@ -925,23 +886,19 @@
             ctx.lineWidth = 1.5;
             ctx.stroke();
 
-            // Ears
             ctx.beginPath(); ctx.arc(-10, -22, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
             ctx.beginPath(); ctx.arc(10, -22, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-            // Body
             ctx.beginPath();
             ctx.ellipse(0, 10, 16, 20, 0, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
 
-            // Arms & Legs
             ctx.beginPath(); ctx.arc(-14, 2, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
             ctx.beginPath(); ctx.arc(14, 2, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
             ctx.beginPath(); ctx.arc(-9, 26, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
             ctx.beginPath(); ctx.arc(9, 26, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-            // Snout & Eyes
             ctx.fillStyle = '#fffae6';
             ctx.beginPath(); ctx.ellipse(0, -8, 6, 4, 0, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#000';
@@ -981,7 +938,6 @@
             ctx.fillStyle = grad;
             ctx.fillRect(-w/2, -h/2, w, h);
 
-            // Can band color: Green for Player 1, Blue for AI/Player 2
             ctx.fillStyle = gameState.activePlayer === 1 ? '#2ecc71' : '#00bfff';
             ctx.fillRect(-w/2, -h/4, w, h/2);
 
@@ -1019,7 +975,6 @@
             const shelfThickness = 32;
 
             if (gameState.theme === 'outside') {
-                // --- OUTSIDE THEME BACKGROUND ---
                 const skyGrad = ctx.createLinearGradient(0, 0, 0, shelfY);
                 skyGrad.addColorStop(0, '#1a82ff');
                 skyGrad.addColorStop(0.6, '#6fb1fc');
@@ -1027,7 +982,6 @@
                 ctx.fillStyle = skyGrad;
                 ctx.fillRect(0, 0, cw, shelfY);
 
-                // Drifting Clouds
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
                 clouds.forEach(cl => {
                     ctx.save();
@@ -1041,7 +995,6 @@
                     ctx.restore();
                 });
 
-                // Flying Birds
                 ctx.strokeStyle = '#2c3e50';
                 ctx.lineWidth = 2.5;
                 const drawBird = (bx, by, scale = 1) => {
@@ -1060,7 +1013,6 @@
                     drawBird(b.x, b.y, b.scale);
                 });
 
-                // Green Hills
                 ctx.fillStyle = '#27ae60';
                 ctx.beginPath();
                 ctx.moveTo(0, shelfY);
@@ -1071,20 +1023,17 @@
                 ctx.fill();
 
             } else {
-                // --- INSIDE BOOTH THEME BACKGROUND (Red & White Vertical Stripes + Toys & Gold Sign) ---
                 const stripeWidth = 44;
                 for (let x = 0; x < cw; x += stripeWidth) {
                     ctx.fillStyle = (Math.floor(x / stripeWidth) % 2 === 0) ? '#d32f2f' : '#ffffff';
                     ctx.fillRect(x, 0, stripeWidth, shelfY);
                 }
 
-                // Hanging Fairground Prizes / Teddy Bears in background
-                drawHangingTeddy(85, 160, '#d35400'); // Orange bear
-                drawHangingTeddy(175, 130, '#8e44ad'); // Purple bear
-                drawHangingTeddy(505, 135, '#27ae60'); // Green bear
-                drawHangingTeddy(595, 155, '#e74c3c'); // Red bear
+                drawHangingTeddy(85, 160, '#d35400');
+                drawHangingTeddy(175, 130, '#8e44ad');
+                drawHangingTeddy(505, 135, '#27ae60');
+                drawHangingTeddy(595, 155, '#e74c3c');
 
-                // Golden Sign Banner in Background
                 ctx.save();
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
                 ctx.fillRect(140, 190, 400, 90);
@@ -1109,7 +1058,6 @@
                 ctx.restore();
             }
 
-            // --- VIBRANT, BOLD 3D WOODEN SHELF TOP ---
             const shelfTopGrad = ctx.createLinearGradient(0, shelfY - 12, 0, shelfY);
             shelfTopGrad.addColorStop(0, '#c68a4c');
             shelfTopGrad.addColorStop(0.5, '#a0522d');
@@ -1124,7 +1072,6 @@
             ctx.lineTo(cw, shelfY - 12);
             ctx.stroke();
 
-            // Shelf Front Face / Apron
             if (gameState.theme === 'inside') {
                 const skirtStripeWidth = 34;
                 ctx.save();
@@ -1155,7 +1102,6 @@
             ctx.fillStyle = shelfShadowGrad;
             ctx.fillRect(0, shelfY + shelfThickness, cw, 25);
 
-            // Ground below shelf (Vertical wooden boards/panels for outside, floorboards for inside)
             if (gameState.theme === 'outside') {
                 const lawnGrad = ctx.createLinearGradient(0, shelfY + shelfThickness, 0, ch);
                 lawnGrad.addColorStop(0, '#1e6b2e');
@@ -1163,7 +1109,6 @@
                 ctx.fillStyle = lawnGrad;
                 ctx.fillRect(0, shelfY + shelfThickness, cw, ch - (shelfY + shelfThickness));
 
-                // Vertical Wooden Panels / Boards below the shelf
                 const boardWidth = 48;
                 ctx.save();
                 ctx.beginPath();
@@ -1200,21 +1145,18 @@
                 }
             }
 
-            // Draw Cans on the Shelf
             cans.forEach(c => {
                 if (c.status !== 'gone') {
                     draw3DCan(c);
                 }
             });
 
-            // Draw Bullets/Shots fired
             gameState.shots.forEach(s => {
                 ctx.beginPath(); ctx.arc(s.x, s.y, 6, 0, Math.PI * 2);
                 ctx.fillStyle = s.p === 1 ? '#ff3333' : '#ffd700'; ctx.fill();
                 ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
             });
 
-            // Aiming crosshairs & laser guide
             const isMyTurn = (gameState.mode === '1p' && gameState.activePlayer === 1) || 
                              (gameState.mode === '2p') || 
                              (gameState.mode === 'online' && gameState.activePlayer === gameState.myPlayerNum);
@@ -1393,221 +1335,6 @@
                 const x = targetCan.x + (Math.random() - 0.5) * 25;
                 const y = targetCan.y + (Math.random() - 0.5) * 25;
                 fireShot(x, y);
-            }, 1800);
-        }
-
-        function updateUI() {
-            document.querySelectorAll('.player-card').forEach(c => c.classList.remove('active'));
-            document.getElementById(`p${gameState.activePlayer}-card`).classList.add('active');
-
-            document.getElementById('p1-rack-label').innerText = gameState.p1Name;
-            document.getElementById('p2-rack-label').innerText = gameState.p2Name;
-
-            document.getElementById('p1-round-info').innerText = `ROUND ${gameState.currentRound[1]} / ${gameState.totalRounds}`;
-            document.getElementById('p2-round-info').innerText = `ROUND ${gameState.currentRound[2]} / ${gameState.totalRounds}`;
-
-            const p1Bullets = document.querySelectorAll('.p1-bullet');
-            const p2Bullets = document.querySelectorAll('.p2-bullet');
-
-            p1Bullets.forEach((bullet, idx) => {
-                if (gameState.activePlayer === 1) {
-                    bullet.classList.toggle('inactive', idx >= gameState.bulletsLeft);
-                } else {
-                    bullet.classList.add('inactive');
-                }
-            });
-
-            p2Bullets.forEach((bullet, idx) => {
-                if (gameState.activePlayer === 2) {
-                    bullet.classList.toggle('inactive', idx >= gameState.bulletsLeft);
-                } else {
-                    bullet.classList.add('inactive');
-                }
-            });
-
-            const currentPName = gameState.activePlayer === 1 ? gameState.p1Name : gameState.p2Name;
-
-            if (gameState.mode === '1p' && gameState.activePlayer === 2) {
-                document.getElementById('turn-status-text').innerText = "AI is thinking...";
-            } else if (gameState.mode === 'online' && gameState.activePlayer !== gameState.myPlayerNum) {
-                document.getElementById('turn-status-text').innerText = `Waiting for ${currentPName}...`;
-            } else {
-                if (aimState.phase === 'x') {
-                    document.getElementById('turn-status-text').innerText = `${currentPName}: Tap for HORIZONTAL aim!`;
-                } else if (aimState.phase === 'y') {
-                    document.getElementById('turn-status-text').innerText = `${currentPName}: Tap for HEIGHT & shoot!`;
-                }
-            }
-        }
-    </script>
-</body>
-</html>
-isAnimating = true;
-            const hitResult = calculateHit(x, y);
-            const currentP = gameState.activePlayer;
-
-            gameState.shots.push({ x, y, p: currentP });
-            gameState.bulletsLeft--;
-
-            let totalPointsEarned = 0;
-            let cansHitCount = 0;
-
-            if (hitResult.type === 'hit') {
-                const targetCan = hitResult.can;
-                totalPointsEarned += targetCan.val;
-                cansHitCount++;
-
-                if (bulletType === 'explosive' || targetCan.type === 'bomb') {
-                    playSound('explosion');
-                    triggerFall(targetCan, true);
-                    cans.forEach(other => {
-                        if (other.status === 'standing' && other.id !== targetCan.id) {
-                            let d = Math.hypot(other.x - targetCan.x, other.y - targetCan.y);
-                            if (d < 110) {
-                                triggerFall(other, true);
-                                totalPointsEarned += other.val;
-                                cansHitCount++;
-                            }
-                        }
-                    });
-                } else if (bulletType === 'laser') {
-                    playSound('hit');
-                    triggerFall(targetCan, true);
-                    let remainingStanding = cans.filter(c => c.status === 'standing');
-                    if (remainingStanding.length > 0) {
-                        let secondCan = remainingStanding[Math.floor(Math.random() * remainingStanding.length)];
-                        triggerFall(secondCan, true);
-                        totalPointsEarned += secondCan.val;
-                        cansHitCount++;
-                    }
-                } else {
-                    playSound('hit');
-                    triggerFall(targetCan, true);
-                    if (targetCan.type === 'lightning') {
-                        let remainingStanding = cans.filter(c => c.status === 'standing');
-                        if (remainingStanding.length > 0) {
-                            let zapCan = remainingStanding[0];
-                            triggerFall(zapCan, true);
-                            totalPointsEarned += zapCan.val;
-                            cansHitCount++;
-                        }
-                    } else if (targetCan.type === 'shield') {
-                        totalPointsEarned += 25;
-                    }
-                }
-
-                const newlyFallen = checkStructuralSupport();
-                newlyFallen.forEach(c => {
-                    totalPointsEarned += c.val;
-                    cansHitCount++;
-                });
-
-                gameState.scores[currentP] += totalPointsEarned;
-                gameState.cansKnocked[currentP] += cansHitCount;
-                gameState.turnScore += totalPointsEarned;
-
-                document.getElementById(`p${currentP}-score`).innerText = gameState.scores[currentP];
-                document.getElementById(`p${currentP}-side-val`).innerText = gameState.cansKnocked[currentP];
-                document.getElementById('turn-score-val').innerText = gameState.turnScore;
-            } else if (hitResult.type === 'nearMiss') {
-                playSound('jostle');
-                const can = hitResult.can;
-                can.jostleTimer = 18;
-                can.x = can.origX + (hitResult.x < can.x ? 9 : -9);
-                can.angle = hitResult.x < can.x ? 0.16 : -0.16;
-            } else {
-                playSound('miss');
-            }
-
-            document.getElementById('shot-feedback-val').innerText = `Cans Knocked Down This Shot: ${cansHitCount}`;
-
-            updateUI();
-
-            setTimeout(() => {
-                gameState.isAnimating = false;
-                if (gameState.bulletsLeft <= 0) {
-                    endTurn();
-                } else {
-                    aimState.phase = 'x';
-                    aimState.angle = 0;
-                    if (gameState.mode === '1p' && gameState.activePlayer === 2) {
-                        triggerAITurn();
-                    }
-                }
-            }, 900);
-        }
-
-        function endTurn() {
-            gameState.bulletsLeft = 3;
-            gameState.bulletTypes = ['gold', 'gold', 'gold'];
-            gameState.turnScore = 0;
-            gameState.shots = [];
-
-            if (gameState.activePlayer === 1) {
-                gameState.activePlayer = 2;
-                initCans();
-            } else {
-                if (gameState.currentRound[1] < gameState.totalRounds) {
-                    gameState.currentRound[1]++;
-                    gameState.currentRound[2]++;
-                    gameState.activePlayer = 1;
-                    initCans();
-                } else {
-                    endMatch();
-                    return;
-                }
-            }
-
-            document.getElementById('turn-score-val').innerText = '0';
-            document.getElementById('shot-feedback-val').innerText = `Cans Knocked Down This Shot: 0`;
-            aimState.phase = 'x';
-            aimState.angle = 0;
-
-            updateUI();
-            updateBulletIcons();
-
-            if (gameState.mode === '1p' && gameState.activePlayer === 2) {
-                triggerAITurn();
-            }
-        }
-
-        function endMatch() {
-            gameState.matchEnded = true;
-            clearInterval(gameState.timerInterval);
-            playSound('win');
-
-            const s1 = gameState.scores[1];
-            const s2 = gameState.scores[2];
-            let title = "";
-            let stats = "";
-
-            if (s1 > s2) {
-                title = `🎉 ${gameState.p1Name.toUpperCase()} WINS! 🎉`;
-                stats = `${gameState.p1Name}: ${s1} pts vs ${gameState.p2Name}: ${s2} pts`;
-            } else if (s2 > s1) {
-                title = `🎉 ${gameState.p2Name.toUpperCase()} WINS! 🎉`;
-                stats = `${gameState.p2Name}: ${s2} pts vs ${gameState.p1Name}: ${s1} pts`;
-            } else {
-                title = `🤝 IT'S A TIE! 🤝`;
-                stats = `Both players scored ${s1} points!`;
-            }
-
-            document.getElementById('win-title').innerText = title;
-            document.getElementById('win-stats').innerText = stats;
-            document.getElementById('win-overlay').classList.add('show');
-        }
-
-        function triggerAITurn() {
-            if (gameState.matchEnded || gameState.activePlayer !== 2) return;
-            document.getElementById('turn-status-text').innerText = "AI is thinking...";
-            
-            setTimeout(() => {
-                const activeCans = cans.filter(c => c.status === 'standing');
-                let targetCan = activeCans.length > 0 ? activeCans[Math.floor(Math.random() * activeCans.length)] : cans[0];
-                const x = targetCan.x + (Math.random() - 0.5) * 25;
-                const y = targetCan.y + (Math.random() - 0.5) * 25;
-                let aiBullet = Math.random() > 0.6 ? 'explosive' : 'gold';
-                fireShot(x, y, aiBullet);
             }, 1800);
         }
 
