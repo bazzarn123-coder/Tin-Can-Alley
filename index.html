@@ -119,7 +119,7 @@
         .start-btn {
             background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%); color: #0d071b;
             border: none; width: 100%; max-width: 360px; padding: 14px; border-radius: 12px;
-            font-size: 1.05rem; font-weight: 800; letter-spacing: 1px; cursor: pointer;
+            font-size: 1.05rem; font-weight: 850; letter-spacing: 1px; cursor: pointer;
             box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4); margin-top: 10px;
         }
         .secondary-btn {
@@ -439,7 +439,6 @@
     </div>
 
     <script>
-        // Tap anywhere on the 3D Intro Splash to jump straight to the menu screen
         document.getElementById('intro-splash').addEventListener('click', () => {
             document.getElementById('intro-splash').classList.add('hidden');
             document.getElementById('splash-screen').classList.remove('hidden');
@@ -479,25 +478,26 @@
         function initCans() {
             cans = [];
             let canId = 0;
+
+            const canWidth = 67.6;
+            const canHeight = 85.8;
+
             const rows = [
-                { count: 4, y: 454, val: 10, label: '10' },
-                { count: 3, y: 392, val: 20, label: '20' },
-                { count: 2, y: 330, val: 30, label: '30' },
-                { count: 1, y: 268, val: 50, label: '50' }
+                { count: 4, y: 444, val: 10, label: '10' },
+                { count: 3, y: 363, val: 20, label: '20' },
+                { count: 2, y: 282, val: 30, label: '30' },
+                { count: 1, y: 201, val: 50, label: '50' }
             ];
 
-            const canWidth = 52;
-            const canHeight = 66;
-
             rows.forEach(r => {
-                const totalWidth = r.count * canWidth + (r.count - 1) * 8;
+                const totalWidth = r.count * canWidth + (r.count - 1) * 10;
                 let startX = 340 - totalWidth / 2 + canWidth / 2;
                 for (let i = 0; i < r.count; i++) {
                     cans.push({
                         id: canId++,
-                        origX: startX + i * (canWidth + 8),
+                        origX: startX + i * (canWidth + 10),
                         origY: r.y,
-                        x: startX + i * (canWidth + 8),
+                        x: startX + i * (canWidth + 10),
                         y: r.y,
                         w: canWidth,
                         h: canHeight,
@@ -921,43 +921,125 @@
             const w = c.w;
             const h = c.h;
 
-            const grad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
-            grad.addColorStop(0, '#444');
-            grad.addColorStop(0.3, '#bbb');
-            grad.addColorStop(0.7, '#fff');
-            grad.addColorStop(1, '#222');
-
+            // Ground shadow under standing can
             if (c.status === 'standing') {
-                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.fillStyle = 'rgba(0,0,0,0.65)';
                 ctx.beginPath();
-                ctx.ellipse(0, h/2 + 4, w/2 + 4, 6, 0, 0, Math.PI * 2);
+                ctx.ellipse(0, h/2 + 5, w/2 + 6, 9, 0, 0, Math.PI * 2);
                 ctx.fill();
             }
 
-            ctx.fillStyle = grad;
+            // Can metallic cylindrical body shading
+            const bodyGrad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
+            bodyGrad.addColorStop(0, '#222');
+            bodyGrad.addColorStop(0.15, '#777');
+            bodyGrad.addColorStop(0.4, '#ccc');
+            bodyGrad.addColorStop(0.5, '#eee');
+            bodyGrad.addColorStop(0.7, '#bbb');
+            bodyGrad.addColorStop(0.9, '#555');
+            bodyGrad.addColorStop(1, '#111');
+
+            ctx.fillStyle = bodyGrad;
             ctx.fillRect(-w/2, -h/2, w, h);
 
-            ctx.fillStyle = gameState.activePlayer === 1 ? '#2ecc71' : '#00bfff';
-            ctx.fillRect(-w/2, -h/4, w, h/2);
+            // Metal ribbed ridges on can body
+            ctx.fillStyle = 'rgba(0,0,0,0.25)';
+            for (let ry = -h/2 + 8; ry < h/2 - 4; ry += 12) {
+                ctx.fillRect(-w/2, ry, w, 2);
+            }
 
-            ctx.font = '700 14px Arial';
-            ctx.fillStyle = '#ffff00';
+            // --- CURVED & PATTERNED LABEL BAND ---
+            const labelH = h * 0.55;
+            const labelY = -labelH / 2;
+            
+            const baseColor = gameState.activePlayer === 1 ? '#1e8449' : '#1b4f72';
+            const highlightColor = gameState.activePlayer === 1 ? '#2ecc71' : '#3498db';
+            const darkColor = gameState.activePlayer === 1 ? '#145a32' : '#0b273d';
+
+            // Curved label cylinder wrap gradient
+            const labelGrad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
+            labelGrad.addColorStop(0, darkColor);
+            labelGrad.addColorStop(0.25, baseColor);
+            labelGrad.addColorStop(0.5, highlightColor);
+            labelGrad.addColorStop(0.75, baseColor);
+            labelGrad.addColorStop(1, darkColor);
+
+            ctx.fillStyle = labelGrad;
+            ctx.fillRect(-w/2, labelY, w, labelH);
+
+            // Diagonal textured pattern for label depth
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(-w/2, labelY, w, labelH);
+            ctx.clip();
+
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.25)';
+            ctx.lineWidth = 1.5;
+            for (let px = -w; px < w * 1.5; px += 8) {
+                ctx.beginPath();
+                ctx.moveTo(px, labelY);
+                ctx.lineTo(px + labelH, labelY + labelH);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            // Gold decorative borders around label
+            ctx.strokeStyle = '#f1c40f';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(-w/2, labelY, w, labelH);
+
+            // Inner curved shading at top/bottom of label for cylinder wrapping illusion
+            const curveShadowTop = ctx.createLinearGradient(0, labelY, 0, labelY + 6);
+            curveShadowTop.addColorStop(0, 'rgba(0,0,0,0.4)');
+            curveShadowTop.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = curveShadowTop;
+            ctx.fillRect(-w/2, labelY, w, 6);
+
+            const curveShadowBot = ctx.createLinearGradient(0, labelY + labelH - 6, 0, labelY + labelH);
+            curveShadowBot.addColorStop(0, 'rgba(0,0,0,0)');
+            curveShadowBot.addColorStop(1, 'rgba(0,0,0,0.5)');
+            ctx.fillStyle = curveShadowBot;
+            ctx.fillRect(-w/2, labelY + labelH - 6, w, 6);
+
+            // Score text with 3D drop shadow
+            ctx.font = '900 18px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
+            
+            ctx.fillStyle = 'rgba(0,0,0,0.8)';
+            ctx.fillText(c.label, 2, 2);
+
+            ctx.fillStyle = '#ffd700';
             ctx.fillText(c.label, 0, 0);
 
-            ctx.fillStyle = '#999999';
+            // Top rim ellipse (3D lid opening)
+            const rimGrad = ctx.createLinearGradient(-w/2, 0, w/2, 0);
+            rimGrad.addColorStop(0, '#555');
+            rimGrad.addColorStop(0.5, '#eee');
+            rimGrad.addColorStop(1, '#444');
+
+            ctx.fillStyle = rimGrad;
             ctx.beginPath();
-            ctx.ellipse(0, -h/2, w/2, 4, 0, 0, Math.PI * 2);
+            ctx.ellipse(0, -h/2, w/2, 6, 0, 0, Math.PI * 2);
             ctx.fill();
-            ctx.strokeStyle = '#111';
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#222';
+            ctx.lineWidth = 1.5;
             ctx.stroke();
 
-            ctx.fillStyle = '#333333';
+            // Inner recess of top rim
+            ctx.fillStyle = '#222';
             ctx.beginPath();
-            ctx.ellipse(0, h/2, w/2, 4, 0, 0, Math.PI * 2);
+            ctx.ellipse(0, -h/2, w/2 - 3, 3.5, 0, 0, Math.PI * 2);
             ctx.fill();
+
+            // Bottom rim ellipse
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.ellipse(0, h/2, w/2, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#111';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
 
             ctx.restore();
         }
@@ -1035,9 +1117,9 @@
 
                 ctx.save();
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
-                ctx.fillRect(140, 190, 400, 90);
+                ctx.fillRect(140, 140, 400, 90);
                 
-                const signGrad = ctx.createLinearGradient(140, 185, 540, 275);
+                const signGrad = ctx.createLinearGradient(140, 135, 540, 225);
                 signGrad.addColorStop(0, '#daa520');
                 signGrad.addColorStop(0.5, '#ffee55');
                 signGrad.addColorStop(1, '#b8860b');
@@ -1045,7 +1127,7 @@
                 ctx.strokeStyle = '#5c3a05';
                 ctx.lineWidth = 4;
                 ctx.beginPath();
-                ctx.roundRect(135, 185, 410, 85, 12);
+                ctx.roundRect(135, 135, 410, 85, 12);
                 ctx.fill();
                 ctx.stroke();
 
@@ -1053,7 +1135,7 @@
                 ctx.fillStyle = '#2c1204';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText('TIN CAN ALLEY', cw / 2, 228);
+                ctx.fillText('TIN CAN ALLEY', cw / 2, 178);
                 ctx.restore();
             }
 
@@ -1199,7 +1281,7 @@
             for (let c of cans) {
                 if (c.status === 'standing') {
                     const dist = Math.sqrt((x - c.x) * (x - c.x) + (y - c.y) * (y - c.y));
-                    if (dist < 45) {
+                    if (dist < 55) {
                         return { type: 'nearMiss', can: c, x: x };
                     }
                 }
@@ -1242,7 +1324,7 @@
                 playSound('jostle');
                 const can = hitResult.can;
                 can.jostleTimer = 18;
-                can.x = can.origX + (hitResult.x < can.x ? 9 : -9);
+                can.x = can.origX + (hitResult.x < can.x ? 11 : -11);
                 can.angle = hitResult.x < can.x ? 0.16 : -0.16;
             } else {
                 playSound('miss');
@@ -1383,3 +1465,4 @@
     </script>
 </body>
 </html>
+by Bazzarn
