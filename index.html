@@ -265,7 +265,7 @@
 <body>
     <!-- 3D INTRO SPLASH SCREEN -->
     <div id="intro-splash">
-        <img src="watermarked_img_18073347474510179094.jpg" alt="Tin Can Alley 3D Splash">
+        <img src="intro-splash.jpg" alt="Tin Can Alley 3D Splash">
         <div class="tap-to-start-banner">TAP ANYWHERE TO PLAY</div>
     </div>
 
@@ -442,7 +442,6 @@
         // Tap anywhere on the 3D Intro Splash to jump straight to the menu screen
         document.getElementById('intro-splash').addEventListener('click', () => {
             document.getElementById('intro-splash').classList.add('hidden');
-            // Remove 'hidden' from splash-screen if it was hidden
             document.getElementById('splash-screen').classList.remove('hidden');
         });
 
